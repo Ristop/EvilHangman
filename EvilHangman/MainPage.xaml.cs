@@ -153,7 +153,7 @@ namespace EvilHangman
                 {
                     if (asi[i].Equals(letter))
                     {
-                        this.result[i] = letter;
+                        this.result[i] = letter;  
                     }
                 }
                 foreach (string elem in result)
