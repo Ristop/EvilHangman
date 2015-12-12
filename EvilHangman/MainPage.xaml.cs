@@ -190,7 +190,7 @@ namespace EvilHangman
                 {
                     vastus += "_ ";
                 }
-                Debug.WriteLine(vastus);
+                Debug.WriteLine(vastus); 
                 return true; 
             }
             
