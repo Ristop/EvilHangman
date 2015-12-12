@@ -69,8 +69,26 @@ namespace EvilHangman
         }
         public bool ProposedLetter()
         {
-
-            return false;
+            string letter = "a";
+            List<string> tempRemaining = new List<string>(); 
+            foreach (string item in this.remaining)
+            {
+                if (item.Contains(letter) == false)
+                {
+                    tempRemaining.Add(item);
+                }
+            }
+            if (tempRemaining.Count != 0)
+            {
+                this.remaining = tempRemaining;
+                return false;
+            }
+            else
+            {
+                //TODO erandi meetodid
+                return true;
+            }
+            
         }
     }
 }
