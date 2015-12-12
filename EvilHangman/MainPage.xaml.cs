@@ -195,6 +195,12 @@ namespace EvilHangman
             }
             
         }
+        private void buttonClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var buttonValue = button.Content;
+            Debug.WriteLine(buttonValue);
+        }
 
     }
 }
