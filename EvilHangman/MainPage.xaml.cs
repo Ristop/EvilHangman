@@ -29,6 +29,7 @@ namespace EvilHangman
         Dictionary<int, List<string>> words = new Dictionary<int, List<string>>();
         List<string> remaining;
         public string[] result;
+        string vastus;
         public MainPage()
         {
             this.InitializeComponent();
@@ -180,15 +181,19 @@ namespace EvilHangman
                 string asi = remaining[0];
                 for (int i = 0; i < asi.Length; i++)
                 {
-                    if (asi[i].Equals(letter))
+                    Debug.WriteLine("1: "+asi[i]);
+                    Debug.WriteLine("2: " + letter);
+                    if (asi[i].ToString().Equals(letter))
                     {
-                        this.result[i] = letter;  
+                        Debug.WriteLine("NO FAKK OFF");
+                        this.result[i] = letter;
                     }
                 }
-                string vastus = "";
+                vastus = "";
                 foreach (string elem in result)
                 {
-                    vastus += "_ ";
+
+                    vastus += elem + " ";
                 }
                 Debug.WriteLine(vastus); 
                 return true; 
