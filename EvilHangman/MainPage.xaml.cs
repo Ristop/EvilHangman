@@ -156,7 +156,7 @@ namespace EvilHangman
                                 bool error = false;
                                 for (int again = 0; again < item.Length; again++)
                                 {
-                                    if (!tempRemaining1[0][again].Equals(item[again]))
+                                    if (!tempRemaining1[0][again].Equals(item[again])) 
                                     {
                                         error = true;
                                         break;
