@@ -147,7 +147,7 @@ namespace EvilHangman
                 }
                 //TODO siin on erind kinni püüdmata
                 remaining = occurances[index];
-                Debug.WriteLine(remaining.Count);
+                Debug.WriteLine(remaining.Count);  
                 string asi = remaining[0];
                 for (int i = 0; i < asi.Length; i++)
                 {
