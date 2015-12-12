@@ -1,7 +1,9 @@
-﻿
+﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+//using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -14,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,29 +32,48 @@ namespace EvilHangman
         Dictionary<int, List<string>> words = new Dictionary<int, List<string>>();
         List<string> remaining;
         public string[] result;
+          int image = 0;
         public MainPage()
         {
             this.InitializeComponent();
-            Setup();
-            SizeEntered();
-            ProposedLetter("a");
-            ProposedLetter("e");
-            ProposedLetter("i");
-            ProposedLetter("p");
-            ProposedLetter("k");
-            ProposedLetter("l");
-            ProposedLetter("t");
-            ProposedLetter("m");
-            ProposedLetter("u");
-            ProposedLetter("n");
-            foreach (string eunuhh in remaining)
-            {
-                Debug.WriteLine(eunuhh);
-            }
+               Setup();
+               SizeEntered();
+               /*ProposedLetter("a");
+               ProposedLetter("e");
+               ProposedLetter("i");
+               ProposedLetter("p");
+               ProposedLetter("k");
+               ProposedLetter("l");
+               ProposedLetter("t");
+               ProposedLetter("m");
+               ProposedLetter("u");
+               ProposedLetter("n");
+               foreach (string eunuhh in remaining)
+               {
+                   Debug.WriteLine(eunuhh);
+               }*/
+               
 
         }
+          private void buttonClick(object sender, RoutedEventArgs e)
+          {
+               var button = (Button)sender;
+               var buttonValue = button.Content;
+               button.IsEnabled = false;
+               if (!ProposedLetter(buttonValue.ToString().ToLower())){
+                    image++;
+                    if (image < 18)
+                    {
+                         BitmapImage image2 = new BitmapImage(new Uri(BaseUri, "/Images/" + image + ".jpg"));
 
-        private void Setup()
+                         PlayGround.Source = image2;
+                    }
+
+               }
+
+               Debug.WriteLine(buttonValue);
+          }
+          private void Setup()
         {
             string[] lines = new string[0];
             try
@@ -165,12 +187,35 @@ namespace EvilHangman
             }
             
         }
-    }
+
+          private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+          {
+              if(e.NewSize.Width > 700)
+               {
+                    Grid.SetRowSpan(PlayGround, 2);
+                    Grid.SetRowSpan(buttons, 2);
+                    Grid.SetColumn(PlayGround, 0);
+                    Grid.SetColumn(buttons, 1);
+
+                    Grid.SetColumnSpan(PlayGround, 1);
+                    Grid.SetColumnSpan(buttons, 1);
+                    Grid.SetRow(PlayGround, 0);
+                    Grid.SetRow(buttons, 0);
+               }
+               else
+               {
+                    Grid.SetColumnSpan(PlayGround, 2);
+                    Grid.SetColumnSpan(buttons, 2);
+                    Grid.SetRow(PlayGround, 0);
+                    Grid.SetRow(buttons, 1);
+
+                    Grid.SetRowSpan(PlayGround, 1);
+                    Grid.SetRowSpan(buttons, 1);
+                    Grid.SetColumn(PlayGround, 0);
+                    Grid.SetColumn(buttons, 0);
+               }
+          }
+     }
     
-      private void buttonClick(object sender, RoutedEventArgs e)
-        {
-            var button = (Button)sender;
-            var buttonValue = button.Content;
-            Debug.WriteLine(buttonValue);
-        }
+      
 }
