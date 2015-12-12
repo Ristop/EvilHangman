@@ -7,8 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" SizeChanged="Page_SizeChanged">
 
+     
      <Grid Name="MainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
           <Grid.RowDefinitions>
+               <RowDefinition Height="Auto"></RowDefinition>
                <RowDefinition Height="Auto"></RowDefinition>
                <RowDefinition Height="*"></RowDefinition>
           </Grid.RowDefinitions>
@@ -60,6 +62,6 @@
           
           
           <!-- Responsive VisualStates -->
-
+          <TextBlock Text="{x:Bind vastus}"></TextBlock>
      </Grid>
 </Page>

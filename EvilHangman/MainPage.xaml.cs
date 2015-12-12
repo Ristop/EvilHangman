@@ -32,6 +32,7 @@ namespace EvilHangman
         Dictionary<int, List<string>> words = new Dictionary<int, List<string>>();
         List<string> remaining;
         public string[] result;
+          String vastus;
           int image = 0;
         public MainPage()
         {
@@ -110,83 +111,118 @@ namespace EvilHangman
                 result[i] = "_";
             }
         }
-        public bool ProposedLetter(string taht)
-        {
-            string letter = taht;
-            List<string> tempRemaining = new List<string>(); 
-            foreach (string item in this.remaining)
-            {
-                if (item.Contains(letter) == false)
-                {
-                    tempRemaining.Add(item);
-                }
-            }
-            if (tempRemaining.Count != 0)
-            {
-                this.remaining = tempRemaining;
-                Debug.WriteLine(this.remaining.Count);
-                return false;
-            }
-            else
-            {
-                int min = 100;
-                Dictionary<int, List<string>> occurances = new Dictionary<int, List<string>>();
-                foreach (string item in this.remaining)
-                {
-                    int a = Regex.Matches(item, letter).Count;
-                    if (a < min)
+          public bool ProposedLetter(string taht)
+          {
+               string letter = taht;
+               List<string> tempRemaining = new List<string>();
+               foreach (string item in this.remaining)
+               {
+                    if (item.Contains(letter) == false)
                     {
-                        min = a;
+                         tempRemaining.Add(item);
                     }
-                }
-                foreach (string item in this.remaining)
-                {
-                    if (min == 1)
+               }
+               if (tempRemaining.Count != 0)
+               {
+                    this.remaining = tempRemaining;
+                    Debug.WriteLine(this.remaining.Count);
+                    return false;
+               }
+               else
+               {
+                    int min = 100;
+                    Dictionary<int, List<string>> occurances = new Dictionary<int, List<string>>();
+                    foreach (string item in this.remaining)
                     {
-                        if (Regex.Matches(item, letter).Count == min)
-                        {
-                            if (occurances.ContainsKey(item.IndexOf(letter)))
-                            {
-                                occurances[item.IndexOf(letter)].Add(item);
-                            }
-                            else
-                            {
-                                List<string> tempRemaining1 = new List<string>();
-                                tempRemaining1.Add(item);
-                            }
-                        }
+                         int a = Regex.Matches(item, letter).Count;
+                         if (a < min)
+                         {
+                              min = a;
+                         }
                     }
-                }
-                int max = 0;
-                int index = 0;
-                foreach (KeyValuePair<int, List<string>> entry in occurances)
-                {
-                    if (entry.Value.Count > max)
+                    List<string> tempRemaining1 = new List<string>();
+                    foreach (string item in this.remaining)
                     {
-                        max = entry.Value.Count;
-                        index = entry.Key;
+                         if (min == 1)
+                         {
+                              if (Regex.Matches(item, letter).Count == min)
+                              {
+                                   if (occurances.ContainsKey(item.IndexOf(letter)))
+                                   {
+                                        occurances[item.IndexOf(letter)].Add(item);
+                                   }
+                                   else
+                                   {
+                                        tempRemaining1.Add(item);
+                                        occurances[item.IndexOf(letter)] = tempRemaining1;
+                                   }
+                              }
+                              int max = 0;
+                              int index = 0;
+                              foreach (KeyValuePair<int, List<string>> entry in occurances)
+                              {
+                                   if (entry.Value.Count > max)
+                                   {
+                                        max = entry.Value.Count;
+                                        index = entry.Key;
+                                   }
+                              }
+                              //TODO siin on erind kinni püüdmata
+                              remaining = occurances[index];
+                         }
+                         else
+                         {
+                              if (Regex.Matches(item, letter).Count == min)
+                              {
+                                   if (tempRemaining1.Count != 0)
+                                   {
+                                        bool error = false;
+                                        for (int again = 0; again < item.Length; again++)
+                                        {
+                                             if (!tempRemaining1[0][again].Equals(item[again]))
+                                             {
+                                                  error = true;
+                                                  break;
+                                             }
+                                        }
+                                        if (error == false)
+                                        {
+                                             tempRemaining1.Add(item);
+                                        }
+
+                                   }
+                                   else
+                                   {
+                                        tempRemaining1.Add(item);
+                                   }
+                              }
+                              this.remaining = tempRemaining1;
+                         }
                     }
-                }
-                //TODO siin on erind kinni püüdmata
-                remaining = occurances[index];
-                Debug.WriteLine(remaining.Count);  
-                string asi = remaining[0];
-                for (int i = 0; i < asi.Length; i++)
-                {
-                    if (asi[i].Equals(letter))
+
+                    Debug.WriteLine(remaining.Count);
+                    string asi = remaining[0];
+                    for (int i = 0; i < asi.Length; i++)
                     {
-                        this.result[i] = letter;  
+                         Debug.WriteLine("1: " + asi[i]);
+                         Debug.WriteLine("2: " + letter);
+                         if (asi[i].ToString().Equals(letter))
+                         {
+                              Debug.WriteLine("NO FAKK OFF");
+                              this.result[i] = letter;
+                         }
                     }
-                }
-                foreach (string elem in result)
-                {
-                    Debug.Write(elem);
-                    Debug.WriteLine("");
-                }
-                return true;
-            }
-            
-        }
+                    vastus = "";
+                    foreach (string elem in result)
+                    {
+
+                         vastus += elem + " ";
+                    }
+                    Debug.WriteLine(vastus);
+                    return true;
+               }
+
+          }
 
           private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
           {
