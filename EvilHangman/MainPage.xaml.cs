@@ -26,19 +26,27 @@ namespace EvilHangman
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    /// using System.Diagnostics;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     public sealed partial class MainPage : Page
     {
 
         Dictionary<int, List<string>> words = new Dictionary<int, List<string>>();
         List<string> remaining;
         public string[] result;
-          String vastus;
+        public List<int> loseList;
+        public List<int> winList;
+        String vastus;
           int image = 0;
+        int counter = 0;
         public MainPage()
         {
             this.InitializeComponent();
                Setup();
-               SizeEntered();
+            loseList=new List<int>();
+            winList=new List<int>();
+            SizeEntered();
                /*ProposedLetter("a");
                ProposedLetter("e");
                ProposedLetter("i");
@@ -65,10 +73,13 @@ namespace EvilHangman
                     image++;
                     if (image < 18)
                     {
+                           counter++;
                          BitmapImage image2 = new BitmapImage(new Uri(BaseUri, "/Images/" + image + ".jpg"));
 
                          PlayGround.Source = image2;
-                    }
+                    }else {
+                    saveScore("scoreLose.txt", counter);
+                }
 
                }
 
@@ -168,7 +179,11 @@ namespace EvilHangman
                                    }
                               }
                               //TODO siin on erind kinni püüdmata
-                              remaining = occurances[index];
+                              try {
+                            remaining=occurances[index];
+
+                        }catch(Exception e) { }
+                              
                          }
                          else
                          {
@@ -218,6 +233,9 @@ namespace EvilHangman
 
                          vastus += elem + " ";
                     }
+                    if(vastus.Contains("_")) {
+                    saveScore("scoreWin.txt", counter);
+                }
                     Debug.WriteLine(vastus);
                     return true;
                }
@@ -251,7 +269,80 @@ namespace EvilHangman
                     Grid.SetColumn(buttons, 0);
                }
           }
-     }
-    
+
+        public async Task saveScore(String fileName, int data) {
+            await loadScores(fileName);
+
+            //Debug.WriteLine("6:" + loseList.Count);
+            foreach(int t in loseList) {
+                //Debug.WriteLine("5:" + t);
+            }
+            String writeResult = "";
+            if(fileName.Equals("scoreLose.txt")) {
+                loseList.Add(data);
+                loseList.Sort();
+                loseList.Reverse();
+                if(loseList.Count>10) {
+                    loseList=loseList.GetRange(0, 10);
+                }
+                foreach(int t in loseList) {
+                    writeResult+=t+",";
+                    //Debug.WriteLine(writeResult);
+                }
+            } else if(fileName.Equals("scoreWin.txt")) {
+                winList.Add(data);
+                winList.Sort();
+                loseList.Reverse();
+                if(winList.Count>10) {
+                    winList=winList.GetRange(0, 10);
+                }
+                foreach(int t in winList) {
+                    writeResult+=t+",";
+                }
+
+            }
+            writeResult=writeResult.Substring(0, writeResult.Length-1);
+            HttpClient htClient = new HttpClient();
+            string webUri = "http://evilhangman.azurewebsites.net/evilhangman/upload.php?table=save/"+fileName+"&data="+writeResult;
+            string result = await htClient.GetStringAsync(webUri);
+            htClient.Dispose();
+            //Debug.WriteLine(result);
+        }
+
+        public async Task loadScores(String fileName) {
+            HttpClient htClient = new HttpClient();
+            string webUri = "http://evilhangman.azurewebsites.net/evilhangman/save/"+fileName;
+            string result = await htClient.GetStringAsync(webUri);
+            htClient.Dispose();
+            if(fileName.Equals("scoreLose.txt")) {
+                if(result.Contains(",")) {
+                    this.loseList=result.Split(',').Select(Int32.Parse).ToList();
+                } else if(!result.Equals("")) {
+                    this.loseList.Add(Int32.Parse(result));
+                }
+
+                loseList.Sort();
+                foreach(int t in this.loseList) {
+                    //Debug.WriteLine("4:" + t);
+                }
+            } else if(fileName.Equals("scoreWin.txt")) {
+
+                if(result.Contains(",")) {
+                    this.winList=result.Split(',').Select(Int32.Parse).ToList();
+                } else if(!result.Equals("")) {
+                    this.winList.Add(Int32.Parse(result));
+                }
+
+                this.loseList.Sort();
+                foreach(int t in this.winList) {
+                    //Debug.WriteLine(t);
+                }
+
+            }
+        }
+
+
+
+    }
       
 }
