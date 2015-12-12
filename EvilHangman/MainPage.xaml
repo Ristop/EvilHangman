@@ -7,7 +7,53 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+          <VisualStateManager.VisualStateGroups>
+               <VisualStateGroup x:Name="VisualStateGroup">
+                    <VisualStateGroup.Transitions>
+                         <VisualTransition GeneratedDuration="0:0:1"/>
+                         <VisualTransition GeneratedDuration="0:0:1" To="VisualState">
+                              <Storyboard>
+                                   <DoubleAnimation Duration="0" To="2.201" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="PlayGround" d:IsOptimized="True"/>
+                                   <DoubleAnimation Duration="0" To="1.946" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="PlayGround" d:IsOptimized="True"/>
+                                   <DoubleAnimation Duration="0" To="216.14" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="PlayGround" d:IsOptimized="True"/>
+                                   <DoubleAnimation Duration="0" To="127.719" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="PlayGround" d:IsOptimized="True"/>
+                              </Storyboard>
+                         </VisualTransition>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="VisualState">
+                         <VisualState.StateTriggers>
+                              <AdaptiveTrigger MinWindowWidth="400"/>
+                         </VisualState.StateTriggers>
+                    </VisualState>
+               </VisualStateGroup>
+          </VisualStateManager.VisualStateGroups>
 
-    </Grid>
+
+          <Grid>
+               <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="*"></RowDefinition>
+               </Grid.RowDefinitions>
+               <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+               </Grid.ColumnDefinitions>
+               <Image Source="/Images/land.jpg"
+                      Name="PlayGround"
+                      Grid.Row="0"
+                      Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                         <CompositeTransform/>
+                    </Image.RenderTransform>
+               </Image>
+               <TextBlock Text="Teeeext"
+                          Name="Keyboard"
+                          Grid.Row="1"
+                          Grid.ColumnSpan="2"></TextBlock>
+               <!--keyboard-->
+          </Grid>
+          <!-- Responsive VisualStates -->
+
+     </RelativePanel>
 </Page>

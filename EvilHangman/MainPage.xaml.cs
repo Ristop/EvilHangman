@@ -30,7 +30,7 @@ namespace EvilHangman
         public MainPage()
         {
             this.InitializeComponent();
-            Setup();
+            //Setup();
 
         }
 
