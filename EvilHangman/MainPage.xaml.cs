@@ -37,7 +37,6 @@ namespace EvilHangman
         private void Setup()
         {
             string[] lines = new string[0];
-            string path = @"C:\Users\Karl\EvilHangman\words.txt";
             try
             {
                 lines = System.IO.File.ReadAllLines("words.txt", System.Text.Encoding.UTF8);
@@ -50,11 +49,11 @@ namespace EvilHangman
             }
             foreach (string word in lines)
             {
-                if (this.words[word.Length] != null)
+                try
                 {
                     this.words[word.Length].Add(word);
                 }
-                else
+                catch(KeyNotFoundException e)
                 {
                     List<string> lengthList = new List<string>();
                     lengthList.Add(word);
@@ -86,6 +85,11 @@ namespace EvilHangman
             else
             {
                 //TODO erandi meetodid
+
+                foreach (string item in this.remaining)
+                {
+
+                }
                 return true;
             }
             
